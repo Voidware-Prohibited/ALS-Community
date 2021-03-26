@@ -37,6 +37,27 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	bool Ragdoll_ = false;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Climbing_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Swimming_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Vehicle_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Sitting_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Downed_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Rope_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Flying_ = false;
+
 public:
 	FALSMovementState()
 	{
@@ -49,6 +70,13 @@ public:
 	const bool& InAir() const { return InAir_; }
 	const bool& Mantling() const { return Mantling_; }
 	const bool& Ragdoll() const { return Ragdoll_; }
+	const bool& Climbing() const { return Climbing_; }
+	const bool& Swimming() const { return Swimming_; }
+	const bool& Vehicle() const { return Vehicle_; }
+	const bool& Sitting() const { return Sitting_; }
+	const bool& Downed() const { return Downed_; }
+	const bool& Rope() const { return Rope_; }
+	const bool& Flying() const { return Flying_; }
 
 	operator EALSMovementState() const { return State; }
 
@@ -60,6 +88,13 @@ public:
 		InAir_ = State == EALSMovementState::InAir;
 		Mantling_ = State == EALSMovementState::Mantling;
 		Ragdoll_ = State == EALSMovementState::Ragdoll;
+		Climbing_ = State == EALSMovementState::Climbing;
+		Swimming_ = State == EALSMovementState::Swimming;
+		Vehicle_ = State == EALSMovementState::Vehicle;
+		Sitting_ = State == EALSMovementState::Sitting;
+		Downed_ = State == EALSMovementState::Downed;
+		Rope_ = State == EALSMovementState::Rope;
+		Flying_ = State == EALSMovementState::Flying;
 	}
 };
 
@@ -78,6 +113,10 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	bool Crouching_ = false;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Prone_ = false;
+
+
 public:
 	FALSStance()
 	{
@@ -87,6 +126,7 @@ public:
 
 	const bool& Standing() const { return Standing_; }
 	const bool& Crouching() const { return Crouching_; }
+	const bool& Prone() const { return Prone_; }
 
 	operator EALSStance() const { return Stance; }
 
@@ -95,6 +135,7 @@ public:
 		Stance = NewStance;
 		Standing_ = Stance == EALSStance::Standing;
 		Crouching_ = Stance == EALSStance::Crouching;
+		Prone_ = Stance == EALSStance::Prone;
 	}
 };
 
@@ -324,6 +365,43 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	bool Barrel_ = false;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Flashlight_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool Blueprint_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool MeleeUnarmed_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool MeleeKnife_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool MeleeOneHanded_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool MeleeTwoHanded_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool MeleeKatana_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool RocketLauncher_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool ItemOneHanded_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool ItemTwoHanded_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool DeviceOneHanded_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool DeviceTwoHanded_ = false;
+
+
 public:
 	FALSOverlayState()
 	{
@@ -344,6 +422,19 @@ public:
 	const bool& Binoculars() const { return Binoculars_; }
 	const bool& Box() const { return Box_; }
 	const bool& Barrel() const { return Barrel_; }
+	const bool& Flashlight() const { return Flashlight_; }
+	const bool& Blueprint() const { return Blueprint_; }
+	const bool& MeleeUnarmed() const { return MeleeUnarmed_; }
+	const bool& MeleeKnife() const { return MeleeKnife_; }
+	const bool& MeleeOneHanded() const { return MeleeOneHanded_; }
+	const bool& MeleeTwoHanded() const { return MeleeTwoHanded_; }
+	const bool& MeleeKatana() const { return MeleeKatana_; }
+	const bool& RocketLauncher() const { return RocketLauncher_; }
+	const bool& ItemOneHanded() const { return ItemOneHanded_; }
+	const bool& ItemTwoHanded() const { return ItemTwoHanded_; }
+	const bool& DeviceOneHanded() const { return DeviceOneHanded_; }
+	const bool& DeviceTwoHanded() const { return DeviceTwoHanded_; }
+
 
 	operator EALSOverlayState() const { return State; }
 
@@ -363,6 +454,19 @@ public:
 		Binoculars_ = State == EALSOverlayState::Binoculars;
 		Box_ = State == EALSOverlayState::Box;
 		Barrel_ = State == EALSOverlayState::Barrel;
+		Flashlight_ = State == EALSOverlayState::Flashlight;
+		Blueprint_ = State == EALSOverlayState::Blueprint;
+		MeleeUnarmed_ = State == EALSOverlayState::MeleeUnarmed;
+		MeleeKnife_ = State == EALSOverlayState::MeleeKnife;
+		MeleeOneHanded_ = State == EALSOverlayState::MeleeOneHanded;
+		MeleeTwoHanded_ = State == EALSOverlayState::MeleeTwoHanded;
+		MeleeKatana_ = State == EALSOverlayState::MeleeKatana;
+		RocketLauncher_ = State == EALSOverlayState::RocketLauncher;
+		ItemOneHanded_ = State == EALSOverlayState::ItemOneHanded;
+		ItemTwoHanded_ = State == EALSOverlayState::ItemTwoHanded;
+		DeviceOneHanded_ = State == EALSOverlayState::DeviceOneHanded;
+		DeviceTwoHanded_ = State == EALSOverlayState::DeviceTwoHanded;
+
 	}
 };
 

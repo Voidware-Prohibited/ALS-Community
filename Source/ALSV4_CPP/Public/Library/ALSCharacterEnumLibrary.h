@@ -59,7 +59,14 @@ enum class EALSMovementState : uint8
 	Grounded,
 	InAir,
 	Mantling,
-	Ragdoll
+	Ragdoll,
+	Climbing,
+	Swimming,
+	Vehicle,
+	Sitting,
+	Downed,
+	Rope,
+	Flying
 };
 
 /**
@@ -80,7 +87,19 @@ enum class EALSOverlayState : uint8
 	Torch,
 	Binoculars,
 	Box,
-	Barrel
+	Barrel,
+	Flashlight,
+	Blueprint,
+	MeleeUnarmed,
+	MeleeKnife,
+	MeleeOneHanded,
+	MeleeTwoHanded,
+	MeleeKatana,
+	RocketLauncher,
+	ItemOneHanded,
+	ItemTwoHanded,
+	DeviceOneHanded,
+	DeviceTwoHanded
 };
 
 /**
@@ -101,7 +120,8 @@ UENUM(BlueprintType)
 enum class EALSStance : uint8
 {
 	Standing,
-	Crouching
+	Crouching,
+	Prone
 };
 
 /**
