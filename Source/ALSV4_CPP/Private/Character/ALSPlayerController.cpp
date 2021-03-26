@@ -61,13 +61,21 @@ void AALSPlayerController::SetupDebugInputs()
 			UALSDebugComponent* DebugComp = Cast<UALSDebugComponent>(Comp);
 			if (InputComponent && DebugComp)
 			{
-				InputComponent->BindKey(FKey("Tab"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleHud);
-				InputComponent->BindKey(FKey("V"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleDebugView);
-				InputComponent->BindKey(FKey("T"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleTraces);
-				InputComponent->BindKey(FKey("Y"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleDebugShapes);
-				InputComponent->BindKey(FKey("U"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleLayerColors);
-				InputComponent->BindKey(FKey("I"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleCharacterInfo);
-				InputComponent->BindKey(FKey("Z"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleSlomo);
+				// InputComponent->BindKey(FKey("Tab"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleHud);
+				// InputComponent->BindKey(FKey("V"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleDebugView);
+				// InputComponent->BindKey(FKey("T"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleTraces);
+				// InputComponent->BindKey(FKey("Y"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleDebugShapes);
+				// InputComponent->BindKey(FKey("U"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleLayerColors);
+				// InputComponent->BindKey(FKey("I"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleCharacterInfo);
+				// InputComponent->BindKey(FKey("Z"), EInputEvent::IE_Pressed, DebugComp, &UALSDebugComponent::ToggleSlomo);
+
+				InputComponent->BindAction("ToggleDebugHUD", IE_Pressed, DebugComp, &UALSDebugComponent::ToggleHud);
+				InputComponent->BindAction("ToggleDebugView", IE_Pressed, DebugComp, &UALSDebugComponent::ToggleDebugView);
+				InputComponent->BindAction("ToggleTraces", IE_Pressed, DebugComp, &UALSDebugComponent::ToggleTraces);
+				InputComponent->BindAction("ToggleDebugShapes", IE_Pressed, DebugComp, &UALSDebugComponent::ToggleDebugShapes);
+				InputComponent->BindAction("ToggleLayerColors", IE_Pressed, DebugComp, &UALSDebugComponent::ToggleLayerColors);
+				InputComponent->BindAction("ToggleCharacterInfo", IE_Pressed, DebugComp, &UALSDebugComponent::ToggleCharacterInfo);
+				InputComponent->BindAction("ToggleSlomo", IE_Pressed, DebugComp, &UALSDebugComponent::ToggleSlomo);
 			}
 		}
 	}
