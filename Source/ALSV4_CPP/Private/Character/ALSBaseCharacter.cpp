@@ -43,6 +43,7 @@ void AALSBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("JumpAction", IE_Pressed, this, &AALSBaseCharacter::JumpPressedAction);
 	PlayerInputComponent->BindAction("JumpAction", IE_Released, this, &AALSBaseCharacter::JumpReleasedAction);
 	PlayerInputComponent->BindAction("StanceAction", IE_Pressed, this, &AALSBaseCharacter::StancePressedAction);
+	PlayerInputComponent->BindAction("RollAction", IE_Pressed, this, &AALSBaseCharacter::RollPressedAction);
 	PlayerInputComponent->BindAction("WalkAction", IE_Pressed, this, &AALSBaseCharacter::WalkPressedAction);
 	PlayerInputComponent->BindAction("RagdollAction", IE_Pressed, this, &AALSBaseCharacter::RagdollPressedAction);
 	PlayerInputComponent->BindAction("SelectRotationMode_1", IE_Pressed, this,
@@ -55,6 +56,7 @@ void AALSBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("AimAction", IE_Released, this, &AALSBaseCharacter::AimReleasedAction);
 	PlayerInputComponent->BindAction("CameraAction", IE_Pressed, this, &AALSBaseCharacter::CameraPressedAction);
 	PlayerInputComponent->BindAction("CameraAction", IE_Released, this, &AALSBaseCharacter::CameraReleasedAction);
+	PlayerInputComponent->BindAction("ShoulderAction", IE_Pressed, this, &AALSBaseCharacter::ShoulderPressedAction);
 }
 
 void AALSBaseCharacter::PostInitializeComponents()
@@ -1298,11 +1300,28 @@ void AALSBaseCharacter::AimReleasedAction()
 
 void AALSBaseCharacter::CameraPressedAction()
 {
-	UWorld* World = GetWorld();
-	check(World);
-	CameraActionPressedTime = World->GetTimeSeconds();
-	GetWorldTimerManager().SetTimer(OnCameraModeSwapTimer, this,
-	                                &AALSBaseCharacter::OnSwitchCameraMode, ViewModeSwitchHoldTime, false);
+	AALSBaseCharacter::OnSwitchCameraMode();
+	// UWorld* World = GetWorld();
+	// check(World);
+	// CameraActionPressedTime = World->GetTimeSeconds();
+	// GetWorldTimerManager().SetTimer(OnCameraModeSwapTimer, this,
+	//                                 &AALSBaseCharacter::OnSwitchCameraMode, ViewModeSwitchHoldTime, false);
+}
+
+void AALSBaseCharacter::ShoulderPressedAction()
+{
+	if (ViewMode == EALSViewMode::FirstPerson)
+	{
+		// Don't swap shoulders on first person mode
+		return;
+	}
+	SetRightShoulder(!bRightShoulder);
+
+	// UWorld* World = GetWorld();
+	// check(World);
+	// CameraActionPressedTime = World->GetTimeSeconds();
+	// GetWorldTimerManager().SetTimer(OnCameraModeSwapTimer, this,
+	// 	&AALSBaseCharacter::OnSwitchCameraMode, ViewModeSwitchHoldTime, false);	
 }
 
 void AALSBaseCharacter::CameraReleasedAction()
@@ -1346,28 +1365,6 @@ void AALSBaseCharacter::StancePressedAction()
 		return;
 	}
 
-	UWorld* World = GetWorld();
-	check(World);
-
-	const float PrevStanceInputTime = LastStanceInputTime;
-	LastStanceInputTime = World->GetTimeSeconds();
-
-	if (LastStanceInputTime - PrevStanceInputTime <= RollDoubleTapTimeout)
-	{
-		// Roll
-		Replicated_PlayMontage(GetRollAnimation(), 1.15f);
-
-		if (Stance == EALSStance::Standing)
-		{
-			SetDesiredStance(EALSStance::Crouching);
-		}
-		else if (Stance == EALSStance::Crouching)
-		{
-			SetDesiredStance(EALSStance::Standing);
-		}
-		return;
-	}
-
 	if (MovementState == EALSMovementState::Grounded)
 	{
 		if (Stance == EALSStance::Standing)
@@ -1381,6 +1378,96 @@ void AALSBaseCharacter::StancePressedAction()
 			UnCrouch();
 		}
 	}
+
+	// UWorld* World = GetWorld();
+	// check(World);
+
+	// const float PrevStanceInputTime = LastStanceInputTime;
+	// LastStanceInputTime = World->GetTimeSeconds();
+
+	// if (LastStanceInputTime - PrevStanceInputTime <= RollDoubleTapTimeout)
+	// {
+		// Roll
+	// 	Replicated_PlayMontage(GetRollAnimation(), 1.15f);
+
+	// 	if (Stance == EALSStance::Standing)
+	// 	{
+	// 		SetDesiredStance(EALSStance::Crouching);
+	// 	}
+	// 	else if (Stance == EALSStance::Crouching)
+	// 	{
+	// 		SetDesiredStance(EALSStance::Standing);
+	// 	}
+	// 	return;
+	// }
+
+	// if (MovementState == EALSMovementState::Grounded)
+	// {
+	// 	if (Stance == EALSStance::Standing)
+	// 	{
+	// 		SetDesiredStance(EALSStance::Crouching);
+	// 		Crouch();
+	// 	}
+	// 	else if (Stance == EALSStance::Crouching)
+	// 	{
+	// 		SetDesiredStance(EALSStance::Standing);
+	// 		UnCrouch();
+	// 	}
+	// }
+
+	// Notice: MovementState == EALSMovementState::InAir case is removed
+}
+
+void AALSBaseCharacter::RollPressedAction()
+{
+	// Stance Action: Press "Stance Action" to toggle Standing / Crouching, double tap to Roll.
+
+	if (MovementAction != EALSMovementAction::None)
+	{
+		return;
+	}
+	if (AALSBaseCharacter::CanRoll() == false)
+	{
+		return;
+	}
+
+	Replicated_PlayMontage(GetRollAnimation(), 1.15f);
+
+	// UWorld* World = GetWorld();
+	// check(World);
+
+	// const float PrevStanceInputTime = LastStanceInputTime;
+	// LastStanceInputTime = World->GetTimeSeconds();
+
+	// if (LastStanceInputTime - PrevStanceInputTime <= RollDoubleTapTimeout)
+	// {
+		// Roll
+	// 	Replicated_PlayMontage(GetRollAnimation(), 1.15f);
+
+	// 	if (Stance == EALSStance::Standing)
+	// 	{
+	// 		SetDesiredStance(EALSStance::Crouching);
+	// 	}
+	// 	else if (Stance == EALSStance::Crouching)
+	// 	{
+	// 		SetDesiredStance(EALSStance::Standing);
+	// 	}
+	// 	return;
+	// }
+
+	// if (MovementState == EALSMovementState::Grounded)
+	// {
+	// 	if (Stance == EALSStance::Standing)
+	// 	{
+	// 		SetDesiredStance(EALSStance::Crouching);
+	// 		Crouch();
+	// 	}
+	// 	else if (Stance == EALSStance::Crouching)
+	// 	{
+	// 		SetDesiredStance(EALSStance::Standing);
+	// 		UnCrouch();
+	// 	}
+	// }
 
 	// Notice: MovementState == EALSMovementState::InAir case is removed
 }

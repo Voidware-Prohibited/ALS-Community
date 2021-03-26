@@ -235,6 +235,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
 	bool CanSprint() const;
 
+	/** BP implementable functions to control Rolling and Mantling */
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Movement System")
+	bool CanRoll() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Movement System")
+	bool CanMantle() const;
+
 	/** BP implementable function that called when Breakfall starts */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ALS|Movement System")
 	void OnBreakfall();
@@ -400,9 +407,13 @@ protected:
 
 	void CameraReleasedAction();
 
+	void ShoulderPressedAction();
+
 	void OnSwitchCameraMode();
 
 	void StancePressedAction();
+
+	void RollPressedAction();
 
 	void WalkPressedAction();
 

@@ -146,6 +146,12 @@ bool UALSMantleComponent::MantleCheck(const FALSMantleTraceSettings& TraceSettin
 	{
 		return false;
 	}
+	AALSBaseCharacter* ALSCharacter = Cast<AALSBaseCharacter>(OwnerCharacter);
+	if (ALSCharacter) {
+		if (!ALSCharacter->CanMantle()) {
+			return false;
+		}
+	}
 
 	// Step 1: Trace forward to find a wall / object the character cannot walk on.
 	const FVector& TraceDirection = OwnerCharacter->HasMovementInput()
